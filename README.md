@@ -1,4 +1,6 @@
-# sv
+# GxStore
+
+Proyecto creado para una tienda digital
 
 Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
 
