@@ -1,1 +1,22 @@
-@import 'tailwindcss';
+@import "tailwindcss";
+
+@theme {
+  /* Colores oscuros de NEON CORE */
+  --color-background: #0f0716;
+  --color-primary: #ddb7ff;
+  --color-on-primary: #490080;
+  --color-on-background: #e2e2e9;
+  --color-on-surface-variant: #cfc2d6;
+  --color-surface-container-low: #1a1b21;
+  --color-surface-container-lowest: #0c0e13;
+  --color-outline: #988d9f;
+  --color-outline-variant: #4d4354;
+  
+  /* Variables de espaciado */
+  --spacing-margin-desktop: 64px;
+  --spacing-gutter: 24px;
+  --spacing-stack-lg: 32px;
+  --spacing-stack-md: 16px;
+  --spacing-stack-sm: 8px;
+  --spacing-section-gap: 80px;
+}
