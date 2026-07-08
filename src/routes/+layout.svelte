@@ -7,4 +7,10 @@
 </script>
 
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
+
+<header>Hola este es el header</header>
+
 {@render children()}
+
+
+<footer>Este es el footer</footer>
