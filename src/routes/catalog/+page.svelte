@@ -43,29 +43,6 @@
 	}
 </style>
 
-<nav class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-xl border-b border-primary/20 shadow-[0_0_15px_rgba(221,183,255,0.1)] flex justify-between items-center px-margin-desktop h-20">
-	<div class="font-headline-lg text-headline-lg font-bold text-primary tracking-tighter">NEON CORE</div>
-	<div class="hidden md:flex gap-gutter items-center">
-		<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="/">Home</a>
-		<a class="font-label-md text-label-md text-primary border-b-2 border-primary pb-1" href="/catalog">Catalog</a>
-		<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="/about-us">About Us</a>
-		<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="/contact">Contact</a>
-	</div>
-	<div class="flex items-center gap-stack-md">
-		<div class="relative hidden lg:block transition-transform duration-300 {isSearchFocused ? 'scale-105' : ''}">
-			<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span>
-			<input 
-				class="bg-surface-container-highest/30 border border-outline-variant/30 rounded-full py-2 pl-10 pr-4 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all text-body-md w-64" 
-				placeholder="Search catalog..." 
-				type="text"
-				onfocus={() => isSearchFocused = true}
-				onblur={() => isSearchFocused = false}
-			/>
-		</div>
-		<button class="bg-primary text-on-primary font-label-md text-label-md px-6 py-2.5 rounded-full active:scale-95 transition-all neon-button-glow font-bold">Connect</button>
-	</div>
-</nav>
-
 <main class="pt-32 pb-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto bg-background text-on-background min-h-screen">
 	<header class="mb-stack-lg flex flex-col md:flex-row md:items-end justify-between gap-stack-md">
 		<div>
@@ -119,17 +96,6 @@
 	</div>
 </main>
 
-<footer class="w-full py-stack-lg bg-surface-container-lowest border-t border-outline-variant/30 mt-section-gap">
-	<div class="flex flex-col md:flex-row justify-between items-center px-margin-desktop gap-gutter max-w-container-max mx-auto">
-		<div class="font-headline-lg text-headline-lg text-primary font-bold">NEON CORE</div>
-		<div class="flex gap-gutter my-stack-md md:my-0">
-			<a class="font-label-md text-label-md text-on-tertiary-container hover:text-primary hover:underline transition-colors" href="/privacy">Privacy</a>
-			<a class="font-label-md text-label-md text-on-tertiary-container hover:text-primary hover:underline transition-colors" href="/terms">Terms</a>
-			<a class="font-label-md text-label-md text-on-tertiary-container hover:text-primary hover:underline transition-colors" href="/support">Support</a>
-		</div>
-		<div class="font-label-md text-label-md text-outline">© 2026 NEON CORE. ALL RIGHTS RESERVED.</div>
-	</div>
-</footer>
 
 <div class="fixed inset-0 z-100 transition-transform duration-500 md:hidden {mobileNavOpen ? 'translate-x-0' : 'translate-x-full'}" id="mobile-nav">
 	<button aria-label="Close menu" class="absolute inset-0 bg-background/90 backdrop-blur-xl w-full h-full cursor-default" onclick={() => mobileNavOpen = false}></button>

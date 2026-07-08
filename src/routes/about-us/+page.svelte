@@ -32,19 +32,6 @@
 	}
 </style>
 
-<header class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-xl border-b border-primary/20 shadow-[0_0_15px_rgba(221,183,255,0.1)] flex justify-between items-center px-margin-desktop h-20">
-	<div class="font-headline-lg text-headline-lg font-bold text-primary tracking-tighter">NEON CORE</div>
-	<nav class="hidden md:flex gap-stack-lg items-center">
-		<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="/">Home</a>
-		<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="/catalog">Catalog</a>
-		<a class="font-label-md text-label-md text-primary border-b-2 border-primary pb-1" href="/about-us">About Us</a>
-		<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="/contact">Contact</a>
-	</nav>
-	<button class="bg-primary text-on-primary px-6 py-2 rounded-full font-label-md text-label-md active:scale-95 transition-transform hover:shadow-[0_0_15px_rgba(221,183,255,0.5)]">
-		Connect
-	</button>
-</header>
-
 <main class="relative bg-background text-on-background min-h-screen pt-20 overflow-x-hidden selection:bg-primary/30 selection:text-primary">
 	<div class="ambient-glow top-[10%] left-[-10%]"></div>
 	<div class="ambient-glow top-[60%] right-[-5%]"></div>
@@ -166,13 +153,3 @@
 		</div>
 	</section>
 </main>
-
-<footer class="w-full py-stack-lg border-t border-outline-variant/30 bg-surface-container-lowest flex flex-col md:flex-row justify-between items-center px-margin-desktop gap-gutter">
-	<div class="font-headline-lg text-headline-lg text-primary font-bold">NEON CORE</div>
-	<div class="text-on-surface-variant font-label-md text-label-md">© 2026 NEON CORE. ALL RIGHTS RESERVED.</div>
-	<div class="flex gap-stack-md">
-		<a class="text-on-tertiary-container hover:text-primary transition-colors hover:underline font-label-md text-label-md" href="/privacy">Privacy</a>
-		<a class="text-on-tertiary-container hover:text-primary transition-colors hover:underline font-label-md text-label-md" href="/terms">Terms</a>
-		<a class="text-on-tertiary-container hover:text-primary transition-colors hover:underline font-label-md text-label-md" href="/support">Support</a>
-	</div>
-</footer>

@@ -172,15 +172,3 @@
 		</div>
 	</div>
 </main>
-
-<footer class="w-full py-stack-lg border-t border-outline-variant/30 bg-surface-container-lowest flex flex-col md:flex-row justify-between items-center px-margin-desktop gap-gutter font-label-md text-label-md">
-	<div class="flex flex-col items-center md:items-start gap-2">
-		<div class="font-headline-lg text-headline-lg text-primary font-bold">NEON CORE</div>
-		<p class="text-on-surface-variant">© 2026 NEON CORE. ALL RIGHTS RESERVED.</p>
-	</div>
-	<div class="flex gap-gutter">
-		<a class="text-on-surface-variant hover:text-primary transition-colors hover:underline" href="/privacy">Privacy</a>
-		<a class="text-on-surface-variant hover:text-primary transition-colors hover:underline" href="/terms">Terms</a>
-		<a class="text-on-surface-variant hover:text-primary transition-colors hover:underline" href="/support">Support</a>
-	</div>
-</footer>
