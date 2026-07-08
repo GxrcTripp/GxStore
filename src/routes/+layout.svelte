@@ -8,7 +8,20 @@
 
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
 
-<header>Hola este es el header</header>
+<header>
+	<div>
+		<p>GxStore</p>
+		<a href="/">Home</a>
+		<a href="/catalog">Catalog</a>
+		<a href="/about-us">About Us</a>
+		<a href="/contact">Contact</a>
+	</div>
+
+	<div>
+		<div></div>
+		<button>Connect</button>
+	</div>
+</header>
 
 {@render children()}
 
