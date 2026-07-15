@@ -61,16 +61,15 @@
 						<h2 class="font-headline-lg text-headline-lg">Misión</h2>
 					</div>
 					<p class="font-body-lg text-body-lg text-on-surface-variant mb-stack-md">
-						En NEON CORE, nuestra misión es democratizar el acceso a la tecnología de alto rendimiento. No solo vendemos components; entregamos las herramientas para que creadores, jugadores y profesionales superen los límites de lo posible.
-					</p>
+						En GxStore estamos para ofrecerte la mejor calidad y el mejor precio para que lleves tu experiencia al proximo nivel				</p>
 					<p class="font-body-md text-body-md text-outline">
-						Cada pieza de hardware en nuestro catálogo es seleccionada por su excelencia técnica y su capacidad para integrarse en un ecosistema de pura potencia.
+						Nuestros productos estan pensados para darte el mejor rendimiento en tu dia a dia.
 					</p>
 				</div>
 
 				<div class="md:col-span-5 bg-primary-container/10 border border-primary/20 rounded-xl p-stack-lg flex flex-col items-center justify-center text-center">
-					<div class="text-[64px] font-bold text-primary mb-2">99.9%</div>
-					<div class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Pure Performance</div>
+					<img src="/src/lib/assets/logo.png" alt="GxStore logo"/>
+					<div class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest"></div>
 				</div>
 
 				<div class="md:col-span-5 glass-panel p-stack-lg rounded-xl relative overflow-hidden h-100">
