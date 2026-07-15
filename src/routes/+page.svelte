@@ -79,13 +79,13 @@
             
             <!-- Slide 1: PC Gamer -->
             <div class="min-w-full h-full relative shrink-0">
-                <img src={images.pcGamer} alt="Promo Slide 1" class="w-full h-full object-cover opacity-25" />
+                <img src={images.pcGamer} alt="Diapositiva promocional 1" class="w-full h-full object-cover opacity-25" />
                 <div class="absolute inset-0 bg-linear-to-t from-background via-black/40 to-background"></div>
             </div>
 
             <!-- Slide 2: Laptop Gamer -->
             <div class="min-w-full h-full relative shrink-0">
-                <img src={images.laptopGamer} alt="Promo Slide 2" class="w-full h-full object-cover opacity-25 brightness-90 hue-rotate-15" />
+                <img src={images.laptopGamer} alt="Diapositiva promocional 2" class="w-full h-full object-cover opacity-25 brightness-90 hue-rotate-15" />
                 <div class="absolute inset-0 bg-linear-to-t from-background via-black/40 to-background"></div>
             </div>
 
@@ -100,8 +100,8 @@
             
             <!-- Indicadores sutiles del estado del fondo (Puntitos) -->
             <div class="flex justify-center gap-2">
-                <button aria-label="Slide 1" onclick={() => currentSlide = 0} class="h-1 rounded-full transition-all duration-300 {currentSlide === 0 ? 'w-8 bg-primary' : 'w-2 bg-white/30'}"></button>
-                <button aria-label="Slide 2" onclick={() => currentSlide = 1} class="h-1 rounded-full transition-all duration-300 {currentSlide === 1 ? 'w-8 bg-primary' : 'w-2 bg-white/30'}"></button>
+                <button aria-label="Diapositiva 1" onclick={() => currentSlide = 0} class="h-1 rounded-full transition-all duration-300 {currentSlide === 0 ? 'w-8 bg-primary' : 'w-2 bg-white/30'}"></button>
+                <button aria-label="Diapositiva 2" onclick={() => currentSlide = 1} class="h-1 rounded-full transition-all duration-300 {currentSlide === 1 ? 'w-8 bg-primary' : 'w-2 bg-white/30'}"></button>
             </div>
 
             <!-- Textos de la promoción principal -->
@@ -135,7 +135,7 @@
 
                         <!-- Botón de acción inferior -->
                         <div class="relative z-10 flex items-center gap-2 text-primary font-label-md font-bold translate-y-1 group-hover:translate-y-0 opacity-80 group-hover:opacity-100 transition-all duration-300">
-                            <p class="text-xs tracking-widest uppercase">VIEW STORE</p>
+                            <p class="text-xs tracking-widest uppercase font-bold">VER CATEGORÍA</p>
                             <div class="material-symbols-outlined text-[16px] transform group-hover:translate-x-1 transition-transform">arrow_forward</div>
                         </div>
                     </a>
@@ -159,7 +159,7 @@
                     Hardware seleccionado de alta gama listo para potenciar tu setup.
                 </p>
             </div>
-            <a class="text-primary font-label-md flex items-center gap-1 hover:underline" href="/store">
+            <a class="text-primary font-label-md flex items-center gap-1 hover:underline font-bold" href="/store">
                 VER TIENDA
                 <div class="material-symbols-outlined text-[18px]">arrow_forward</div>
             </a>
@@ -174,10 +174,10 @@
                 
                 <div class="relative z-10">
                     <p class="bg-primary text-on-primary text-[10px] font-bold px-2 py-1 rounded inline-block tracking-wider">
-                        PRE-BUILT RIG
+                        EQUIPO ARMADO PERSONALIZADO
                     </p>
                     <p class="font-headline-lg text-headline-lg mt-4 font-black tracking-tight text-on-background">
-                        PC DESKTOP CUSTOM BUILD
+                        PC DE ESCRITORIO PERSONALIZADO
                     </p>
                     <p class="text-on-surface-variant max-w-xs mt-2 text-body-md">
                         Estación de escritorio optimizada para FPS estables y máximo enfriamiento.
@@ -186,32 +186,32 @@
                 
                 <div class="relative z-10 flex justify-between items-center">
                     <p class="font-headline-lg text-primary font-black text-2xl">
-                        $1,850
+                        $1.850
                     </p>
-                    <button aria-label="Agregar PC Desktop al carrito" class="bg-primary text-on-primary p-3 rounded-full hover:rotate-90 transition-transform shadow-lg shadow-primary/20">
-                        <div class="material-symbols-outlined flex items-center justify-center">add</div>
+                    <button aria-label="Agregar PC de Escritorio al carrito" class="bg-primary text-on-primary p-3 rounded-full hover:rotate-90 transition-transform shadow-lg shadow-primary/20">
+                        <div class="material-symbols-outlined flex items-center justify-center font-bold">add</div>
                     </button>
                 </div>
             </div>
 
             <!-- TARJETA HORIZONTAL: Laptop Gamer -->
-            <div class="md:col-span-2 glass-card rounded-xl p-6 flex items-center gap-gutter relative overflow-hidden z-10" style="transform: translateY({scrolled * 0.05}px)">
+            <div class="md:col-span-2 glass-card rounded-xl p-6 flex items-center gap-gutter relative overflow-hidden z-10 group" style="transform: translateY({scrolled * 0.05}px)">
                 <div class="flex-1 z-10">
                     <p class="bg-secondary/20 text-secondary text-[9px] font-bold px-2 py-0.5 rounded inline-block mb-2 tracking-wider">
-                        PORTABILIDAD PRO
+                        PORTABILIDAD PROFESIONAL
                     </p>
                     <p class="font-headline-lg text-headline-lg-mobile font-bold text-on-background">
-                        LAPTOP GAMER HIGH-TIER
+                        LAPTOP GAMER DE ALTO NIVEL
                     </p>
                     <p class="text-on-surface-variant text-body-md mt-1">
                         Potencia portátil para gaming y desarrollo exigente allá donde vayas.
                     </p>
                     <p class="font-headline-md text-primary font-black text-xl mt-3">
-                        $1,299
+                        $1.299
                     </p>
                 </div>
-                <div class="w-1/2 h-full relative z-5 flex items-center justify-center">
-                    <img class="w-full h-full object-contain rounded-lg group-hover:scale-105 transition-transform duration-500" alt="Laptop Gamer" src={images.laptopGamer}/>
+                <div class="w-1/2 h-full relative z-5 flex items-center justify-center overflow-hidden">
+                    <img class="w-full h-full object-contain rounded-lg transform group-hover:scale-105 transition-transform duration-500" alt="Laptop Gamer" src={images.laptopGamer}/>
                 </div>
             </div>
 
@@ -221,10 +221,10 @@
                     <img class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500" alt="Teclado Razer" src={images.tecladoRazer}/>
                 </div>
                 <div class="mt-4">
-                    <p class="font-bold text-on-surface text-sm uppercase tracking-wide group-hover:text-primary transition-colors">TECLADO RAZER MECÁNICO</p>
+                    <p class="font-bold text-on-surface text-sm uppercase tracking-wide group-hover:text-primary transition-colors">TECLADO MECÁNICO RAZER</p>
                     <div class="flex justify-between items-center mt-1">
                         <p class="text-label-md text-primary font-black text-lg">$110</p>
-                        <p class="text-[10px] text-emerald-400 font-bold bg-emerald-400/10 px-2 py-0.5 rounded">STOCK</p>
+                        <p class="text-[10px] text-emerald-400 font-bold bg-emerald-400/10 px-2 py-0.5 rounded">DISPONIBLE</p>
                     </div>
                 </div>
             </div>
@@ -235,10 +235,10 @@
                     <img class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500" alt="Mouse Razer" src={images.mouseRazer}/>
                 </div>
                 <div class="mt-4">
-                    <p class="font-bold text-on-surface text-sm uppercase tracking-wide group-hover:text-primary transition-colors">MOUSE RAZER E-SPORTS</p>
+                    <p class="font-bold text-on-surface text-sm uppercase tracking-wide group-hover:text-primary transition-colors">MOUSE RAZER PARA E-SPORTS</p>
                     <div class="flex justify-between items-center mt-1">
                         <p class="text-label-md text-primary font-black text-lg">$75</p>
-                        <p class="text-[10px] text-emerald-400 font-bold bg-emerald-400/10 px-2 py-0.5 rounded">STOCK</p>
+                        <p class="text-[10px] text-emerald-400 font-bold bg-emerald-400/10 px-2 py-0.5 rounded">DISPONIBLE</p>
                     </div>
                 </div>
             </div>
@@ -246,17 +246,17 @@
         </div>
     </section>
 
-    <!-- Newsletter Section -->
+    <!-- SECCIÓN DE BOLETÍN DE NOTICIAS -->
     <section class="py-section-gap px-margin-desktop">
         <div class="glass-card rounded-2xl p-12 relative overflow-hidden flex flex-col items-center text-center gap-stack-lg border border-primary/20">
             <div class="absolute inset-0 bg-primary/5 pointer-events-none"></div>
             <div class="relative z-10 max-w-2xl">
-                <p class="font-headline-xl text-headline-xl mb-4 font-bold">JOIN THE CORE</p>
-                <p class="text-body-lg text-on-surface-variant">Get early access to limited edition drops, firmware updates, and community tournaments.</p>
+                <p class="font-headline-xl text-headline-xl mb-4 font-bold uppercase tracking-wide">ÚNETE AL NÚCLEO</p>
+                <p class="text-body-lg text-on-surface-variant">Obtén acceso anticipado a lanzamientos exclusivos, actualizaciones de firmware y torneos de la comunidad.</p>
             </div>
             <div class="relative z-10 flex w-full max-w-md bg-surface-container-low border border-outline-variant/30 rounded-lg p-1">
-                <input class="flex-1 bg-transparent border-none focus:ring-0 px-4 py-3 text-on-surface placeholder:text-outline" placeholder="Enter your neural-link email" type="email"/>
-                <button class="bg-primary text-on-primary px-8 py-3 rounded-md font-bold hover:brightness-110 active:scale-95 transition-all">SIGN UP</button>
+                <input class="flex-1 bg-transparent border-none focus:ring-0 px-4 py-3 text-on-surface placeholder:text-outline" placeholder="Ingresa tu correo electrónico" type="email"/>
+                <button class="bg-primary text-on-primary px-8 py-3 rounded-md font-bold hover:brightness-110 active:scale-95 transition-all uppercase">Suscribirse</button>
             </div>
         </div>
     </section>

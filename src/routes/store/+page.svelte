@@ -1,133 +1,198 @@
 <script lang="ts">
-	let mobileNavOpen = $state(false);
-	let activeFilter = $state('All Gear');
+    import Tarjeta from '$lib/components/Tarjeta.svelte';
+    import { dbProductos } from '$lib/db/productos';
+    import { page } from '$app/state'; // Importamos el estado de la página para leer la URL
 
-	const categories = ['All Gear', 'Neural Links', 'Visual Cores', 'Tactile Mods'];
+    let mobileNavOpen = $state(false);
 
-	const products = [
-		{ id: 1, title: 'Neural-X Visor', price: '$2,499', tag: 'New', desc: 'High-frequency neural interfacing with 16K retina-sync displays.', img: 'https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?auto=format&fit=crop&w=600&q=80' },
-		{ id: 2, title: 'Ghost-Touch G2', price: '$899', tag: '', desc: 'Precision haptic feedback system for tactile digital interaction.', img: 'https://images.unsplash.com/photo-1595225476474-87563907a212?auto=format&fit=crop&w=600&q=80' },
-		{ id: 3, title: 'Core Pulse v.9', price: '$1,250', tag: '', desc: 'Next-gen AI processing unit with 400 TFLOPS of neural power.', img: 'https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=600&q=80' },
-		{ id: 4, title: 'Neo-Type XL', price: '$299', tag: 'Sale', desc: 'Optical-mechanical keys with Zero-Latency wireless tech.', img: 'https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=600&q=80' },
-		{ id: 5, title: 'Sonic Core Buds', price: '$450', tag: '', desc: 'Spatial audio integration with real-time neural noise cancellation.', img: 'https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=400&q=80' },
-		{ id: 6, title: 'Quantum Hub', price: '$620', tag: '', desc: 'Integrated power and data management for massive rig setups.', img: 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=400&q=80' },
-		{ id: 7, title: 'Data Slate Prime', price: '$1,890', tag: '', desc: 'Portable high-density computation unit with edge-lit glass display.', img: 'https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=600&q=80' },
-		{ id: 8, title: 'Augment-A1 Link', price: '$3,200', tag: '', desc: 'Direct limb-to-neural connection module for sub-ms reaction speeds.', img: 'https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?auto=format&fit=crop&w=800&q=80' }
-	];
+    // Inicializamos la query de búsqueda leyendo el parámetro 'search' de la URL
+    let urlSearch = page.url.searchParams.get('search') || '';
+    let buscarQuery = $state(urlSearch);
+    
+    // Categorías unificadas en español
+    const categories = ['Todos los Productos', 'computacion', 'perifericos', 'conectividad-y-redes', 'mobiliario'];
 
-	let isSearchFocused = $state(false);
+    // Inicializamos el filtro activo leyendo el parámetro 'category'
+    let urlCategory = page.url.searchParams.get('category');
+    let activeFilter = $state(
+        categories.includes(urlCategory || '') ? urlCategory : 'Todos los Productos'
+    );
+    
+    let precioMaximo = $state(2000);
+
+    // Mapeo limpio a español
+    const products = dbProductos.map(p => ({
+        id: p.id,
+        title: p.nombre,          
+        price: `$${p.precio}`,    
+        priceNumeric: p.precio,   
+        tag: '', 
+        category: p.categoria,    
+        desc: p.descripcion,      
+        img: p.img                
+    }));
+
+    // Lógica de filtrado reactivo (Reacciona al cambio de buscarQuery que viene de la URL)
+    let filteredProducts = $derived(() => {
+        return products.filter(product => {
+            const matchesSearch = product.title.toLowerCase().includes(buscarQuery.toLowerCase()) || 
+                                  product.desc.toLowerCase().includes(buscarQuery.toLowerCase());
+            
+            const matchesCategory = activeFilter === 'Todos los Productos' || product.category === activeFilter;
+            const matchesPrice = product.priceNumeric <= precioMaximo;
+
+            return matchesSearch && matchesCategory && matchesPrice;
+        });
+    });
+
+    // Efecto reactivo para actualizar la búsqueda si la URL cambia estando ya en la tienda
+    $effect(() => {
+        const queryInUrl = page.url.searchParams.get('search') || '';
+        if (queryInUrl !== buscarQuery) {
+            buscarQuery = queryInUrl;
+        }
+    });
 </script>
 
 <style>
-	.glass-card {
-		background: rgba(30, 11, 54, 0.4);
-		backdrop-filter: blur(20px);
-		border: 1px solid rgba(221, 183, 255, 0.1);
-	}
-	.glass-card:hover {
-		border: 1px solid rgba(221, 183, 255, 0.3);
-		box-shadow: 0 0 20px rgba(221, 183, 255, 0.05);
-	}
-	.neon-glow-text {
-		text-shadow: 0 0 8px rgba(221, 183, 255, 0.6);
-	}
-	.neon-button-glow:hover {
-		box-shadow: 0 0 15px rgba(221, 183, 255, 0.4);
-	}
-	.scrollbar-hide::-webkit-scrollbar {
-		display: none;
-	}
-	.scrollbar-hide {
-		-ms-overflow-style: none;
-		scrollbar-width: none;
-	}
+    .glass-card {
+        background: rgba(30, 11, 54, 0.4);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(221, 183, 255, 0.1);
+    }
+    .neon-glow-text {
+        text-shadow: 0 0 8px rgba(221, 183, 255, 0.6);
+    }
 </style>
 
 <main class="pt-32 pb-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto bg-background text-on-background min-h-screen">
-	<header class="mb-stack-lg flex flex-col md:flex-row md:items-end justify-between gap-stack-md">
-		<div>
-			<h1 class="font-headline-xl text-headline-xl text-primary mb-2 neon-glow-text">Product Store</h1>
-			<p class="text-on-surface-variant max-w-xl font-body-lg text-body-lg">Explore our curated selection of elite digital hardware and neural enhancements. Performance redefined for the next generation.</p>
-		</div>
-		<div class="flex gap-stack-sm overflow-x-auto pb-2 scrollbar-hide">
-			{#each categories as category}
-				<button 
-					onclick={() => activeFilter = category}
-					class="px-4 py-2 rounded-lg transition-all font-label-md text-label-md cursor-pointer whitespace-nowrap {activeFilter === category ? 'bg-primary-container/20 text-primary border-l-4 border-primary' : 'bg-surface-container-highest/50 text-on-surface-variant border border-transparent hover:bg-surface-container-highest'}"
-				>
-					{category}
-				</button>
-			{/each}
-		</div>
-	</header>
+    <!-- CABECERA -->
+    <header class="mb-10">
+        <h1 class="font-headline-xl text-headline-xl text-primary mb-2 neon-glow-text">Tienda de Hardware</h1>
+        <p class="text-on-surface-variant max-w-xl font-body-lg text-body-lg">
+            Explora nuestro catálogo de hardware premium. Equipamiento de alto rendimiento seleccionado para entusiastas y profesionales.
+        </p>
+    </header>
 
-	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter">
-		{#each products as product}
-			<div class="glass-card rounded-xl overflow-hidden group cursor-pointer transition-all duration-500">
-				<div class="relative aspect-square overflow-hidden">
-					<div class="absolute inset-0 bg-linear-to-t from-background/80 to-transparent z-10 group-hover:from-primary/20 transition-all duration-500"></div>
-					<img class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" alt={product.title} src={product.img}/>
-					{#if product.tag}
-						<div class="absolute top-4 right-4 z-20">
-							<span class="text-on-primary-container text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest {product.tag === 'New' ? 'bg-primary-container' : 'bg-error-container text-error'}">{product.tag}</span>
-						</div>
-					{/if}
-				</div>
-				<div class="p-stack-md relative z-20">
-					<div class="flex justify-between items-start mb-2">
-						<h3 class="font-headline-lg text-[20px] text-on-surface group-hover:text-primary transition-colors">{product.title}</h3>
-						<div class="text-primary font-bold font-code text-body-lg neon-glow-text">{product.price}</div>
-					</div>
-					<p class="text-on-surface-variant font-label-md mb-4 line-clamp-2">{product.desc}</p>
-					<div class="flex gap-2">
-						<button class="flex-1 bg-surface-container-highest group-hover:bg-primary transition-all duration-300 text-on-surface group-hover:text-on-primary py-2 rounded-lg font-bold text-label-md uppercase tracking-tight active:scale-95">Add to Cart</button>
-						<button aria-label="Add to favorites" class="w-10 h-10 flex items-center justify-center border border-outline-variant/30 rounded-lg text-outline hover:text-primary hover:border-primary transition-all">
-							<span class="material-symbols-outlined text-[20px]">favorite</span>
-						</button>
-					</div>
-				</div>
-			</div>
-		{/each}
-	</div>
+    <!-- CONTENEDOR PRINCIPAL: SIDEBAR + GRID -->
+    <div class="flex flex-col lg:flex-row gap-8">
+        
+        <!-- BARRA LATERAL DE FILTROS -->
+        <aside class="w-full lg:w-64 shrink-0 space-y-6">
+            <div class="glass-card rounded-xl p-6 space-y-6 border border-outline-variant/20">
+                <p class="font-bold text-md uppercase tracking-wider text-primary neon-glow-text">Filtros de Búsqueda</p>
+                
+                <!-- Buscador de Texto -->
+                <div class="space-y-2">
+                    <label for="search" class="text-xs font-bold uppercase text-on-surface-variant">Buscar Equipamiento</label>
+                    <input 
+                        id="search"
+                        type="text" 
+                        bind:value={buscarQuery}
+                        placeholder="Ej. Razer, Laptop, Router..." 
+                        class="w-full bg-black/20 border border-outline-variant/30 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-primary text-on-surface transition-all"
+                    />
+                </div>
 
-	<div class="mt-section-gap flex flex-col items-center gap-stack-md">
-		<button class="px-12 py-4 border border-primary/30 rounded-lg bg-primary-container/10 text-primary font-headline-lg text-[20px] hover:bg-primary/20 hover:border-primary transition-all active:scale-95 neon-button-glow">Load More Gear</button>
-		<p class="font-label-md text-label-md text-outline">Displaying 8 of 142 digital assets</p>
-	</div>
+                <!-- Filtro de Categorías -->
+                <div class="space-y-2">
+                    <p class="text-xs font-bold uppercase text-on-surface-variant">Categorías</p>
+                    <div class="flex flex-col gap-1.5 text-sm">
+                        {#each categories as category}
+                            <button 
+                                onclick={() => activeFilter = category}
+                                class="text-left px-3 py-2 rounded-lg transition-all font-semibold capitalize {activeFilter === category ? 'bg-primary/20 text-primary border-l-4 border-primary font-bold' : 'hover:bg-white/5 text-on-surface-variant'}"
+                            >
+                                {category === 'Todos los Productos' ? 'Todo el Catálogo' : category.replace(/-/g, ' ')}
+                            </button>
+                        {/each}
+                    </div>
+                </div>
+
+                <!-- Filtro Deslizante de Precio -->
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center text-xs font-bold uppercase text-on-surface-variant">
+                        <span>Precio Máximo</span>
+                        <span class="text-primary font-mono font-bold">${precioMaximo}</span>
+                    </div>
+                    <input 
+                        type="range" 
+                        min="20" 
+                        max="2000" 
+                        step="10"
+                        bind:value={precioMaximo}
+                        class="w-full accent-primary bg-black/30 h-1.5 rounded-lg appearance-none cursor-pointer"
+                    />
+                </div>
+            </div>
+        </aside>
+
+        <!-- CUADRÍCULA DE PRODUCTOS -->
+        <div class="flex-1 space-y-6">
+            <div class="flex justify-between items-center">
+                <p class="text-on-surface-variant text-sm">
+                    Mostrando <span class="text-primary font-bold">{filteredProducts().length}</span> componentes locales
+                </p>
+            </div>
+
+            {#if filteredProducts().length > 0}
+                <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-gutter">
+                    {#each filteredProducts() as product (product.id)}
+                        <Tarjeta {product} />
+                    {/each}
+                </div>
+            {:else}
+                <!-- Estado Vacío -->
+                <div class="glass-card rounded-xl p-12 text-center flex flex-col items-center justify-center gap-4">
+                    <span class="material-symbols-outlined text-outline text-5xl">database_off</span>
+                    <div>
+                        <p class="font-bold text-lg text-on-surface">No hay hardware que coincida</p>
+                        <p class="text-on-surface-variant text-sm mt-1">Prueba subiendo el presupuesto o afinando el texto del buscador.</p>
+                    </div>
+                </div>
+            {/if}
+        </div>
+
+    </div>
+
+    <!-- PIE DE PÁGINA -->
+    <div class="mt-section-gap flex flex-col items-center gap-stack-md">
+        <p class="font-label-md text-label-md text-outline">Visualizando {filteredProducts().length} productos de tu base de datos local</p>
+    </div>
 </main>
 
-
+<!-- MENÚ MÓVIL EN ESPAÑOL -->
 <div class="fixed inset-0 z-100 transition-transform duration-500 md:hidden {mobileNavOpen ? 'translate-x-0' : 'translate-x-full'}" id="mobile-nav">
-	<button aria-label="Close menu" class="absolute inset-0 bg-background/90 backdrop-blur-xl w-full h-full cursor-default" onclick={() => mobileNavOpen = false}></button>
-	<div class="absolute right-0 top-0 h-screen w-64 bg-surface-container-low/95 backdrop-blur-2xl border-l border-primary/10 flex flex-col py-stack-lg shadow-2xl">
-		<div class="px-8 mb-stack-lg">
-			<div class="text-primary font-headline-lg-mobile text-headline-lg-mobile font-bold">NEON CORE</div>
-			<div class="text-on-surface-variant font-label-md">Elite Digital Hub</div>
-		</div>
-		<nav class="flex flex-col flex-1">
-			<a class="flex items-center gap-stack-sm text-on-surface-variant p-6 hover:bg-primary-container/10 hover:text-primary transition-all" href="/">
-				<span class="material-symbols-outlined">home</span>
-				<span class="font-body-md text-body-md">Home</span>
-			</a>
-			<a class="flex items-center gap-stack-sm bg-primary-container/20 text-primary border-l-4 border-primary p-6 transition-all" href="/store">
-				<span class="material-symbols-outlined">grid_view</span>
-				<span class="font-body-md text-body-md">Store</span>
-			</a>
-			<a class="flex items-center gap-stack-sm text-on-surface-variant p-6 hover:bg-primary-container/10 hover:text-primary transition-all" href="/about-us">
-				<span class="material-symbols-outlined">info</span>
-				<span class="font-body-md text-body-md">About Us</span>
-			</a>
-			<a class="flex items-center gap-stack-sm text-on-surface-variant p-6 hover:bg-primary-container/10 hover:text-primary transition-all" href="/contact">
-				<span class="material-symbols-outlined">mail</span>
-				<span class="font-body-md text-body-md">Contact</span>
-			</a>
-		</nav>
-		<div class="px-6">
-			<button class="w-full bg-primary text-on-primary py-3 rounded-lg font-bold">Shop Now</button>
-		</div>
-	</div>
+    <button aria-label="Cerrar menú" class="absolute inset-0 bg-background/90 backdrop-blur-xl w-full h-full cursor-default" onclick={() => mobileNavOpen = false}></button>
+    <div class="absolute right-0 top-0 h-screen w-64 bg-surface-container-low/95 backdrop-blur-2xl border-l border-primary/10 flex flex-col py-stack-lg shadow-2xl">
+        <div class="px-8 mb-stack-lg">
+            <div class="text-primary font-headline-lg-mobile text-headline-lg-mobile font-bold">NEON CORE</div>
+            <div class="text-on-surface-variant font-label-md">Elite Digital Hub</div>
+        </div>
+        <nav class="flex flex-col flex-1">
+            <a class="flex items-center gap-stack-sm text-on-surface-variant p-6 hover:bg-primary-container/10 hover:text-primary transition-all" href="/">
+                <span class="material-symbols-outlined">home</span>
+                <span class="font-body-md text-body-md">Inicio</span>
+            </a>
+            <a class="flex items-center gap-stack-sm bg-primary-container/20 text-primary border-l-4 border-primary p-6 transition-all" href="/store">
+                <span class="material-symbols-outlined">grid_view</span>
+                <span class="font-body-md text-body-md">Tienda</span>
+            </a>
+            <a class="flex items-center gap-stack-sm text-on-surface-variant p-6 hover:bg-primary-container/10 hover:text-primary transition-all" href="/about-us">
+                <span class="material-symbols-outlined">info</span>
+                <span class="font-body-md text-body-md">Sobre Nosotros</span>
+            </a>
+            <a class="flex items-center gap-stack-sm text-on-surface-variant p-6 hover:bg-primary-container/10 hover:text-primary transition-all" href="/contact">
+                <span class="material-symbols-outlined">mail</span>
+                <span class="font-body-md text-body-md">Contacto</span>
+            </a>
+        </nav>
+        <div class="px-6">
+            <button class="w-full bg-primary text-on-primary py-3 rounded-lg font-bold">Comprar Ahora</button>
+        </div>
+    </div>
 </div>
 
-<button aria-label="Open menu" class="fixed bottom-6 right-6 z-110 md:hidden w-14 h-14 bg-primary text-on-primary rounded-full shadow-2xl flex items-center justify-center active:scale-90 transition-all" onclick={() => mobileNavOpen = !mobileNavOpen}>
-	<span class="material-symbols-outlined">menu</span>
+<button aria-label="Abrir menú" class="fixed bottom-6 right-6 z-110 md:hidden w-14 h-14 bg-primary text-on-primary rounded-full shadow-2xl flex items-center justify-center active:scale-90 transition-all" onclick={() => mobileNavOpen = !mobileNavOpen}>
+    <span class="material-symbols-outlined">menu</span>
 </button>
