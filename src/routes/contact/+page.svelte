@@ -54,19 +54,6 @@
 
 <svelte:window onmousemove={handleMouseMove} />
 
-<nav class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-xl border-b border-primary/20 shadow-[0_0_15px_rgba(221,183,255,0.1)] flex justify-between items-center px-margin-desktop h-20">
-	<div class="font-headline-lg text-headline-lg font-bold text-primary tracking-tighter">NEON CORE</div>
-	<div class="hidden md:flex items-center gap-gutter">
-		<a class="text-on-surface-variant hover:text-primary pb-1 transition-colors duration-300" href="/">Home</a>
-		<a class="text-on-surface-variant hover:text-primary pb-1 transition-colors duration-300" href="/catalog">Catalog</a>
-		<a class="text-on-surface-variant hover:text-primary pb-1 transition-colors duration-300" href="/about-us">About Us</a>
-		<a class="text-primary border-b-2 border-primary pb-1 active:scale-95 transition-transform" href="/contact">Contact</a>
-	</div>
-	<button class="bg-primary text-on-primary px-6 py-2 rounded-full font-label-md hover:scale-105 transition-all neon-glow">
-		Connect
-	</button>
-</nav>
-
 <main class="pt-32 pb-section-gap px-margin-mobile md:px-margin-desktop min-h-screen max-w-container-max mx-auto relative bg-background text-on-background">
 	<div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-section-gap items-center">
 		

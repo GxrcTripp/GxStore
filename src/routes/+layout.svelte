@@ -1,21 +1,24 @@
 <script lang="ts">
 	import './layout.css';
 	import favicon from '$lib/assets/favicon.svg';
+	import { page } from '$app/stores'; // Importamos la tienda de la página
 
 	let { children } = $props();
-	
 </script>
 
-<svelte:head><link rel="icon" href={favicon} /></svelte:head>
+<svelte:head>
+	<link rel="icon" href={favicon} />
+</svelte:head>
 
 <header class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-xl border-b border-primary/20 shadow-[0_0_15px_rgba(221,183,255,0.1)] flex justify-between items-center px-margin-desktop h-20">
 	<div class="flex items-center gap-gutter">
-		<h1 class="font-headline-lg text-headline-lg font-bold text-primary tracking-tighter">NEON CORE</h1>
+		<h1 class="font-headline-lg text-headline-lg font-bold text-primary tracking-tighter">GxStore ©</h1>
 		<nav class="hidden md:flex items-center gap-stack-lg">
-			<a class="text-primary border-b-2 border-primary pb-1 font-label-md text-label-md transition-all" href="/">Home</a>
-			<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="/catalog">Catalog</a>
-			<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="/about-us">About Us</a>
-			<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="/contact">Contact</a>
+			<!-- Enlaces dinámicos -->
+			<a class="font-label-md text-label-md transition-all pb-1 {$page.url.pathname === '/' ? 'text-primary border-b-2 border-primary' : 'text-on-surface-variant hover:text-primary'}" href="/">Home</a>
+			<a class="font-label-md text-label-md transition-all pb-1 {$page.url.pathname === '/store' ? 'text-primary border-b-2 border-primary' : 'text-on-surface-variant hover:text-primary'}" href="/store">Store</a>
+			<a class="font-label-md text-label-md transition-all pb-1 {$page.url.pathname === '/about-us' ? 'text-primary border-b-2 border-primary' : 'text-on-surface-variant hover:text-primary'}" href="/about-us">About Us</a>
+			<a class="font-label-md text-label-md transition-all pb-1 {$page.url.pathname === '/contact' ? 'text-primary border-b-2 border-primary' : 'text-on-surface-variant hover:text-primary'}" href="/contact">Contact</a>
 		</nav>
 	</div>
 	<div class="flex items-center gap-stack-md">
@@ -29,13 +32,15 @@
 	</div>
 </header>
 
-{@render children()}
-
+<!-- Le aplicamos bg-background aquí para que no se vea blanco -->
+<main class="pt-20 bg-background min-h-screen text-on-background">
+	{@render children()}
+</main>
 
 <footer class="w-full py-stack-lg bg-surface-container-lowest border-t border-outline-variant/30 flex flex-col md:flex-row justify-between items-center px-margin-desktop gap-gutter">
 	<div class="flex flex-col items-center md:items-start gap-2">
-		<h2 class="font-headline-lg text-headline-lg text-primary font-bold">NEON CORE</h2>
-		<p class="font-label-md text-label-md text-on-surface-variant">© 2026 NEON CORE. ALL RIGHTS RESERVED.</p>
+		<h2 class="font-headline-lg text-headline-lg text-primary font-bold">GxStore</h2>
+		<p class="font-label-md text-label-md text-on-surface-variant">© 2026 GxStore. ALL RIGHTS RESERVED.</p>
 	</div>
 	<div class="flex gap-stack-lg">
 		<a class="font-label-md text-label-md text-on-tertiary-container hover:text-primary transition-colors hover:underline" href="/privacy">Privacy</a>

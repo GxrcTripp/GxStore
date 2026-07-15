@@ -46,7 +46,7 @@
 <main class="pt-32 pb-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto bg-background text-on-background min-h-screen">
 	<header class="mb-stack-lg flex flex-col md:flex-row md:items-end justify-between gap-stack-md">
 		<div>
-			<h1 class="font-headline-xl text-headline-xl text-primary mb-2 neon-glow-text">Product Catalog</h1>
+			<h1 class="font-headline-xl text-headline-xl text-primary mb-2 neon-glow-text">Product Store</h1>
 			<p class="text-on-surface-variant max-w-xl font-body-lg text-body-lg">Explore our curated selection of elite digital hardware and neural enhancements. Performance redefined for the next generation.</p>
 		</div>
 		<div class="flex gap-stack-sm overflow-x-auto pb-2 scrollbar-hide">
@@ -109,9 +109,9 @@
 				<span class="material-symbols-outlined">home</span>
 				<span class="font-body-md text-body-md">Home</span>
 			</a>
-			<a class="flex items-center gap-stack-sm bg-primary-container/20 text-primary border-l-4 border-primary p-6 transition-all" href="/catalog">
+			<a class="flex items-center gap-stack-sm bg-primary-container/20 text-primary border-l-4 border-primary p-6 transition-all" href="/store">
 				<span class="material-symbols-outlined">grid_view</span>
-				<span class="font-body-md text-body-md">Catalog</span>
+				<span class="font-body-md text-body-md">Store</span>
 			</a>
 			<a class="flex items-center gap-stack-sm text-on-surface-variant p-6 hover:bg-primary-container/10 hover:text-primary transition-all" href="/about-us">
 				<span class="material-symbols-outlined">info</span>

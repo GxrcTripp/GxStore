@@ -146,7 +146,7 @@
 			<div class="relative z-10">
 				<h2 class="font-headline-xl text-headline-xl mb-stack-md">¿Listo para el siguiente nivel?</h2>
 				<p class="font-body-lg text-body-lg text-on-surface-variant mb-stack-lg">Únete a la élite tecnológica y redefine tu experiencia digital.</p>
-				<a href="/catalog" class="inline-block bg-primary text-on-primary px-10 py-4 rounded-full font-bold hover:shadow-[0_0_30px_rgba(221,183,255,0.6)] transition-all duration-300 active:scale-95">
+				<a href="/store" class="inline-block bg-primary text-on-primary px-10 py-4 rounded-full font-bold hover:shadow-[0_0_30px_rgba(221,183,255,0.6)] transition-all duration-300 active:scale-95">
 					Explorar Catálogo
 				</a>
 			</div>
