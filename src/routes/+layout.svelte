@@ -182,154 +182,169 @@
 			{/if}
 		</div>
 
-		<!-- CARRITO DE COMPRAS INTERACTIVO -->
-		<div class="relative">
-			<button
-				class="relative p-2.5 rounded-full bg-surface-container-low hover:bg-primary/15 border border-outline-variant/30 text-on-surface-variant hover:text-primary transition-all duration-200 flex items-center justify-center focus:outline-none"
-				onclick={() =>
-					(mostrarCarritoFlotante = !mostrarCarritoFlotante)}
-				aria-label="Abrir carrito"
-			>
-				<!-- Icono de Carrito SVG -->
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					fill="none"
-					viewBox="0 0 24 24"
-					stroke-width="2"
-					stroke="currentColor"
-					class="w-5 h-5"
-				>
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
-					/>
-				</svg>
+<!-- CARRITO DE COMPRAS INTERACTIVO -->
+        <div class="relative">
+            <button
+                class="relative p-2.5 rounded-full bg-surface-container-low hover:bg-primary/15 border border-outline-variant/30 text-on-surface-variant hover:text-primary transition-all duration-200 flex items-center justify-center focus:outline-none cursor-pointer"
+                onclick={() =>
+                    (mostrarCarritoFlotante = !mostrarCarritoFlotante)}
+                aria-label="Abrir carrito"
+            >
+                <!-- Icono de Carrito SVG -->
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    class="w-5 h-5"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+                    />
+                </svg>
 
-				<!-- Burbuja de Notificación reactiva -->
-				{#if cart.totalItems > 0}
-					<span
-						class="absolute -top-1 -right-1 bg-primary text-background font-bold text-[10px] w-5 h-5 rounded-full flex items-center justify-center animate-pulse shadow-[0_0_8px_rgba(221,183,255,0.6)]"
-					>
-						{cart.totalItems}
-					</span>
-				{/if}
-			</button>
+                <!-- Burbuja de Notificación reactiva -->
+                {#if cart.totalItems > 0}
+                    <span
+                        class="absolute -top-1 -right-1 bg-primary text-background font-bold text-[10px] w-5 h-5 rounded-full flex items-center justify-center animate-pulse shadow-[0_0_8px_rgba(221,183,255,0.6)]"
+                    >
+                        {cart.totalItems}
+                    </span>
+                {/if}
+            </button>
 
-			<!-- DROPDOWN FLOTANTE DEL CARRITO -->
-			{#if mostrarCarritoFlotante}
-				<!-- Botón invisible de fondo para cerrar el dropdown al clickear fuera -->
-				<!-- svelte-ignore a11y_click_events_have_key_events -->
-				<!-- svelte-ignore a11y_no_static_element_interactions -->
-				<div
-					class="fixed inset-0 z-40"
-					onclick={() => (mostrarCarritoFlotante = false)}
-				></div>
+            <!-- DROPDOWN FLOTANTE DEL CARRITO -->
+            {#if mostrarCarritoFlotante}
+                <!-- Botón invisible de fondo para cerrar el dropdown al clickear fuera -->
+                <!-- svelte-ignore a11y_click_events_have_key_events -->
+                <!-- svelte-ignore a11y_no_static_element_interactions -->
+                <div
+                    class="fixed inset-0 z-40"
+                    onclick={() => (mostrarCarritoFlotante = false)}
+                ></div>
 
-				<div
-					class="absolute right-0 mt-3 w-80 bg-surface-container-low border border-outline-variant/40 rounded-2xl shadow-2xl z-50 overflow-hidden backdrop-blur-md"
-				>
-					<div
-						class="p-4 border-b border-outline-variant/30 flex justify-between items-center"
-					>
-						<span class="font-bold text-sm text-white"
-							>Tu Carrito</span
-						>
-						<span class="text-xs text-primary/80 font-semibold"
-							>{cart.totalItems} items</span
-						>
-					</div>
+                <div
+                    class="absolute right-0 mt-3 w-85 bg-surface-container-low border border-outline-variant/40 rounded-2xl shadow-2xl z-50 overflow-hidden backdrop-blur-md"
+                >
+                    <!-- Cabecera del Dropdown -->
+                    <div
+                        class="p-4 border-b border-outline-variant/30 flex justify-between items-center"
+                    >
+                        <p class="font-bold text-sm text-white">Tu Carrito</p>
+                        <p class="text-xs text-primary/80 font-semibold">
+                            {cart.totalItems} {cart.totalItems === 1 ? 'producto' : 'productos'}
+                        </p>
+                    </div>
 
-					<!-- Lista de productos añadidos -->
-					<div
-						class="max-h-64 overflow-y-auto divide-y divide-outline-variant/15"
-					>
-						{#if cart.items.length === 0}
-							<div
-								class="p-8 text-center text-xs text-on-surface-variant/60 italic"
-							>
-								Tu carrito está vacío. ¡Equípate en la tienda!
-							</div>
-						{:else}
-							{#each cart.items as item}
-								<div class="p-3 flex items-center gap-3">
-									<!-- Miniatura en cajita -->
-									<div
-										class="w-10 h-10 bg-background/50 border border-outline-variant/20 rounded-lg overflow-hidden shrink-0 flex items-center justify-center"
-									>
-										<!-- Corregido: item.nombre -> item.title -->
-										<img
-											src={item.img}
-											alt={item.title}
-											class="w-full h-full object-contain p-0.5"
-										/>
-									</div>
+                    <!-- Lista de productos añadidos -->
+                    <div
+                        class="max-h-64 overflow-y-auto divide-y divide-outline-variant/15"
+                    >
+                        {#if cart.items.length === 0}
+                            <div
+                                class="p-8 text-center text-xs text-on-surface-variant/60 italic"
+                            >
+                                <p>Tu carrito está vacío. ¡Equípate en la tienda!</p>
+                            </div>
+                        {:else}
+                            {#each cart.items as item}
+                                <div class="p-3 flex items-center gap-3">
+                                    <!-- Miniatura en cajita -->
+                                    <div
+                                        class="w-12 h-12 bg-background/50 border border-outline-variant/20 rounded-lg overflow-hidden shrink-0 flex items-center justify-center"
+                                    >
+                                        <img
+                                            src={item.img}
+                                            alt={item.title}
+                                            class="w-full h-full object-contain p-0.5"
+                                        />
+                                    </div>
 
-									<!-- Info del producto -->
-									<div class="flex-1 min-w-0">
-										<!-- Corregido: item.nombre -> item.title -->
-										<h4
-											class="text-xs font-semibold text-white truncate"
-										>
-											{item.title}
-										</h4>
-										<!-- Corregido: item.precio -> item.price -->
-										<p
-											class="text-[11px] text-primary/80 font-medium"
-										>
-											${item.price} x {item.cantidad}
-										</p>
-									</div>
+                                    <!-- Info del producto con doble precio -->
+                                    <div class="flex-1 min-w-0 space-y-0.5">
+                                        <h4 class="text-xs font-semibold text-white truncate">
+                                            {item.title}
+                                        </h4>
+                                        <!-- Precio en USD -->
+                                        <p class="text-[11px] text-primary font-bold font-code">
+                                            ${item.price.toFixed(2)} <span class="text-[9px] text-primary/60 font-normal">x{item.cantidad}</span>
+                                        </p>
+                                        <!-- Conversión individual a Bs (Tasa BCV del Carrito) -->
+                                        {#if cart.tasaBCV > 0}
+                                            <p class="text-[10px] text-on-surface-variant/70 font-medium">
+                                                Bs. {new Intl.NumberFormat('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(item.price * cart.tasaBCV * item.cantidad)}
+                                            </p>
+                                        {/if}
+                                    </div>
 
-									<!-- Botones de control rápido -->
-									<div class="flex items-center gap-1">
-										<button
-											class="w-5 h-5 rounded-md bg-background hover:bg-error/20 hover:text-error text-white/60 text-xs flex items-center justify-center transition-all font-bold"
-											onclick={() =>
-												cart.eliminar(item.id)}
-										>
-											-
-										</button>
-										<button
-											class="w-5 h-5 rounded-md bg-background hover:bg-primary/20 hover:text-primary text-white/60 text-xs flex items-center justify-center transition-all font-bold"
-											onclick={() => cart.agregar(item)}
-										>
-											+
-										</button>
-									</div>
-								</div>
-							{/each}
-						{/if}
-					</div>
+                                    <!-- Botones de control rápido -->
+                                    <div class="flex items-center gap-1 shrink-0">
+                                        <button
+                                            class="w-5 h-5 rounded-md bg-background hover:bg-error/20 hover:text-error text-white/60 text-xs flex items-center justify-center transition-all font-bold cursor-pointer"
+                                            onclick={() => cart.eliminar(item.id)}
+                                        >
+                                            -
+                                        </button>
+                                        <button
+                                            class="w-5 h-5 rounded-md bg-background hover:bg-primary/20 hover:text-primary text-white/60 text-xs flex items-center justify-center transition-all font-bold cursor-pointer"
+                                            onclick={() => cart.agregar(item)}
+                                        >
+                                            +
+                                        </button>
+                                    </div>
+                                </div>
+                            {/each}
+                        {/if}
+                    </div>
 
-					<!-- Footer del Dropdown del Carrito -->
-					{#if cart.items.length > 0}
-						<div
-							class="p-4 bg-background/30 border-t border-outline-variant/30 flex flex-col gap-3"
-						>
-							<div
-								class="flex justify-between items-center text-xs"
-							>
-								<span class="text-white/60">Total:</span>
-								<span class="text-sm font-bold text-primary"
-									>${cart.totalPrecio.toFixed(2)}</span
-								>
-							</div>
-							<button
-								class="w-full py-2 bg-primary hover:bg-primary/90 text-background font-bold text-xs rounded-xl transition-colors shadow-lg shadow-primary/10"
-								onclick={() => {
-									alert("¡Gracias por simular tu compra!");
-									cart.limpiar();
-									mostrarCarritoFlotante = false;
-								}}
-							>
-								Proceder al Pago
-							</button>
-						</div>
-					{/if}
-				</div>
-			{/if}
-		</div>
+                    <!-- Footer con desglose total en ambas monedas -->
+                    {#if cart.items.length > 0}
+                        <div
+                            class="p-4 bg-background/30 border-t border-outline-variant/30 flex flex-col gap-3"
+                        >
+                            <!-- Bloque de Totales Compuestos -->
+                            <div class="flex flex-col gap-1 border-b border-outline-variant/10 pb-2">
+                                <!-- Fila USD -->
+                                <div class="flex justify-between items-center">
+                                    <p class="text-white/60 text-xs">Total en USD:</p>
+                                    <p class="text-sm font-bold text-primary font-code">
+                                        ${cart.totalPrecio.toFixed(2)}
+                                    </p>
+                                </div>
+                                
+                                <!-- Fila Bolívares (BCV) -->
+                                {#if cart.tasaBCV > 0}
+                                    <div class="flex justify-between items-center">
+                                        <p class="text-on-surface-variant/80 text-[11px]">Total estimado en Bs:</p>
+                                        <p class="text-xs font-semibold text-white/90">
+                                            Bs. {new Intl.NumberFormat('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(cart.totalPrecioBs)}
+                                        </p>
+                                    </div>
+                                {:else}
+                                    <div class="flex justify-between items-center">
+                                        <p class="text-[10px] text-outline animate-pulse">Sincronizando tasa oficial...</p>
+                                    </div>
+                                {/if}
+                            </div>
+
+                            <button
+                                class="w-full py-2.5 bg-primary hover:bg-primary/90 text-background font-bold text-xs rounded-xl transition-colors shadow-lg shadow-primary/10 uppercase tracking-wider cursor-pointer font-bold"
+                                onclick={() => {
+                                    alert(`¡Gracias por simular tu compra!\nTotal procesado: $${cart.totalPrecio.toFixed(2)}`);
+                                    cart.limpiar();
+                                    mostrarCarritoFlotante = false;
+                                }}
+                            >
+                                Proceder al Pago
+                            </button>
+                        </div>
+                    {/if}
+                </div>
+            {/if}
+        </div>
 
 		<button
 			class="bg-primary text-on-primary px-6 py-2 rounded-full font-bold active:scale-95 transition-all neon-glow"

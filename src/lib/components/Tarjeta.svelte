@@ -7,15 +7,31 @@
         product: {
             id: string;
             title: string;
-            price: string;
+            price: string; // Llega como string (ej: "1299" o "$1299")
             tag?: string;
             desc: string;
             img: string;
             category: string;
         };
+        tasaBCV: number; // Recibimos la tasa oficial desde el catálogo padre
     }
 
-    let { product }: Props = $props();
+    // Desestructuramos las propiedades que nos pasan
+    let { product, tasaBCV }: Props = $props();
+
+    // Limpiamos el precio en dólares para asegurar que sea un número puro
+    let precioNumericoUSD = $derived(Number(product.price.replace("$", "")));
+
+    // Calculamos reactivamente el precio en Bolívares basado en la tasa del BCV
+    let precioBolivares = $derived(precioNumericoUSD * tasaBCV);
+
+    // Función semántica para dar formato de miles y decimales a la moneda nacional
+    function formatearBs(valor: number) {
+        return new Intl.NumberFormat('es-VE', {
+			minimumFractionDigits: 2,
+			maximumFractionDigits: 2
+		}).format(valor);
+    }
 </script>
 
 <div
@@ -41,7 +57,7 @@
                             ? 'bg-primary-container'
                             : 'bg-error-container text-error'}"
                     >
-                        {product.tag}
+                        {product.tag === 'New' ? 'Nuevo' : product.tag}
                     </span>
                 </div>
             {/if}
@@ -49,18 +65,33 @@
 
         <!-- Información del Producto -->
         <div class="p-stack-md relative z-20">
-            <div class="flex justify-between items-start mb-2 gap-2">
+            <div class="flex flex-col mb-3 gap-1">
+                <!-- Título del Producto -->
                 <h3
                     class="font-headline-lg text-[18px] font-bold text-on-surface group-hover:text-primary transition-colors line-clamp-1"
                 >
                     {product.title}
                 </h3>
-                <div
-                    class="text-primary font-bold font-code text-body-lg neon-glow-text whitespace-nowrap"
-                >
-                    {product.price}
+
+                <!-- CONTENEDOR DE MONEDA DUAL -->
+                <div class="flex flex-col gap-0.5 mt-1">
+                    <p class="text-primary font-bold font-code text-headline-md neon-glow-text">
+                        ${precioNumericoUSD.toFixed(2)} <span class="text-[10px] text-primary/70 font-normal uppercase tracking-wider">USD</span>
+                    </p>
+                    
+                    {#if tasaBCV > 0}
+                        <p class="text-xs text-on-surface-variant/80 font-medium">
+                            Bs. {formatearBs(precioBolivares)} <span class="text-[9px] text-outline uppercase tracking-normal">(BCV)</span>
+                        </p>
+                    {:else}
+                        <p class="text-[11px] text-outline animate-pulse">
+                            Calculando Bs...
+                        </p>
+                    {/if}
                 </div>
             </div>
+            
+            <!-- Descripción del Producto -->
             <p
                 class="text-on-surface-variant font-label-md mb-4 line-clamp-2 text-sm leading-relaxed"
             >
@@ -72,26 +103,26 @@
     <!-- Botones de Acción -->
     <div class="px-stack-md pb-stack-md relative z-20 mt-auto">
         <div class="flex gap-2">
-            <!-- 2. Agregamos el evento onclick para añadir al carrito usando 'product' -->
             <button
                 onclick={() =>
                     cart.agregar({
                         id: product.id,
                         title: product.title,
-                        price: Number(product.price.replace("$", "")), // Quitamos el "$" y lo convertimos a número
+                        price: precioNumericoUSD, 
                         img: product.img,
                     })}
-                class="flex-1 bg-surface-container-highest hover:bg-primary transition-all duration-300 text-on-surface hover:text-on-primary py-2 rounded-lg font-bold text-label-md uppercase tracking-tight active:scale-95"
+                class="flex-1 bg-surface-container-highest hover:bg-primary transition-all duration-300 text-on-surface hover:text-on-primary py-2 rounded-lg font-bold text-label-md uppercase tracking-tight active:scale-95 cursor-pointer"
             >
-                Add to Cart
+                Añadir al Carrito
             </button>
+            
             <button
-                aria-label="Add to favorites"
-                class="w-10 h-10 flex items-center justify-center border border-outline-variant/30 rounded-lg text-outline hover:text-primary hover:border-primary transition-all shrink-0"
+                aria-label="Añadir a favoritos"
+                class="w-10 h-10 flex items-center justify-center border border-outline-variant/30 rounded-lg text-outline hover:text-primary hover:border-primary transition-all shrink-0 cursor-pointer"
             >
-                <span class="material-symbols-outlined text-[20px]"
-                    >favorite</span
-                >
+                <div class="flex items-center justify-center">
+                    <span class="material-symbols-outlined text-[20px]">favorite</span>
+                </div>
             </button>
         </div>
     </div>
@@ -103,10 +134,12 @@
         backdrop-filter: blur(20px);
         border: 1px solid rgba(221, 183, 255, 0.1);
     }
+    
     .glass-card:hover {
         border: 1px solid rgba(221, 183, 255, 0.3);
         box-shadow: 0 0 20px rgba(221, 183, 255, 0.05);
     }
+    
     .neon-glow-text {
         text-shadow: 0 0 8px rgba(221, 183, 255, 0.6);
     }

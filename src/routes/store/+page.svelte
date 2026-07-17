@@ -1,55 +1,72 @@
 <script lang="ts">
+    import { onMount } from 'svelte';
     import Tarjeta from '$lib/components/Tarjeta.svelte';
     import { dbProductos } from '$lib/db/productos';
     import { page } from '$app/state'; // Importamos el estado de la página para leer la URL
 
-    let mobileNavOpen = $state(false);
+    let mobileNavOpen = $state(false); //
 
     // Inicializamos la query de búsqueda leyendo el parámetro 'search' de la URL
-    let urlSearch = page.url.searchParams.get('search') || '';
-    let buscarQuery = $state(urlSearch);
+    let urlSearch = page.url.searchParams.get('search') || ''; //
+    let buscarQuery = $state(urlSearch); //
     
     // Categorías unificadas en español
-    const categories = ['Todos los Productos', 'computacion', 'perifericos', 'conectividad-y-redes', 'mobiliario'];
+    const categories = ['Todos los Productos', 'computacion', 'perifericos', 'conectividad-y-redes', 'mobiliario']; //
 
     // Inicializamos el filtro activo leyendo el parámetro 'category'
-    let urlCategory = page.url.searchParams.get('category');
+    let urlCategory = page.url.searchParams.get('category'); //
     let activeFilter = $state(
-        categories.includes(urlCategory || '') ? urlCategory : 'Todos los Productos'
+        categories.includes(urlCategory || '') ? urlCategory : 'Todos los Productos' //
     );
     
-    let precioMaximo = $state(2000);
+    let precioMaximo = $state(2000); //
+
+    // --- INTEGRACIÓN DE LA TASA OFICIAL DEL BCV ---
+    let tasaBCV = $state(0);
+
+    onMount(async () => {
+        try {
+            const respuesta = await fetch('https://ve.dolarapi.com/v1/dolares/oficial');
+            if (respuesta.ok) {
+                const datos = await respuesta.json();
+                tasaBCV = datos.promedio; // Guardamos la tasa del día
+            }
+        } catch (error) {
+            console.error('Error cargando la tasa del BCV:', error);
+            tasaBCV = 45.50; // Tasa de respaldo si se cae la red
+        }
+    });
 
     // Mapeo limpio a español
     const products = dbProductos.map(p => ({
-        id: p.id,
-        title: p.nombre,          
-        price: `$${p.precio}`,    
-        priceNumeric: p.precio,   
-        tag: '', 
-        category: p.categoria,    
-        desc: p.descripcion,      
-        img: p.img                
+        id: p.id, //
+        title: p.nombre,          //
+        price: `$${p.precio}`,    //
+        priceNumeric: p.precio,   //
+        tag: '', //
+        category: p.categoria,    //
+        desc: p.descripcion,      //
+        img: p.img                //
     }));
 
     // Lógica de filtrado reactivo (Reacciona al cambio de buscarQuery que viene de la URL)
     let filteredProducts = $derived(() => {
         return products.filter(product => {
             const matchesSearch = product.title.toLowerCase().includes(buscarQuery.toLowerCase()) || 
-                                  product.desc.toLowerCase().includes(buscarQuery.toLowerCase());
+                                  product.desc.toLowerCase().includes(buscarQuery.toLowerCase()); //
             
-            const matchesCategory = activeFilter === 'Todos los Productos' || product.category === activeFilter;
-            const matchesPrice = product.priceNumeric <= precioMaximo;
+            const matchesCategory = activeFilter === 'Todos los Productos' || product.category === activeFilter; //
+            const matchesPrice = product.priceNumeric <= precioMaximo; //
 
-            return matchesSearch && matchesCategory && matchesPrice;
+            return matchesSearch && matchesCategory && matchesPrice; //
         });
     });
 
     // Efecto reactivo para actualizar la búsqueda si la URL cambia estando ya en la tienda
     $effect(() => {
-        const queryInUrl = page.url.searchParams.get('search') || '';
-        if (queryInUrl !== buscarQuery) {
-            buscarQuery = queryInUrl;
+        const queryInUrl = page.url.searchParams.get('search') || ''; //
+        if (queryInUrl !== buscarQuery) { //
+            buscarQuery = queryInUrl; //
         }
     });
 </script>
@@ -84,24 +101,27 @@
                 
                 <!-- Buscador de Texto -->
                 <div class="space-y-2">
-                    <label for="search" class="text-xs font-bold uppercase text-on-surface-variant">Buscar Equipamiento</label>
+                    <div class="flex justify-between items-center text-xs font-bold uppercase text-on-surface-variant">
+                        <span>Precio Máximo</span>
+                        <span class="text-primary font-mono font-bold">${precioMaximo}</span>
+                    </div>
                     <input 
-                        id="search"
-                        type="text" 
-                        bind:value={buscarQuery}
-                        placeholder="Ej. Razer, Laptop, Router..." 
-                        class="w-full bg-black/20 border border-outline-variant/30 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-primary text-on-surface transition-all"
+                        type="range" 
+                        min="20" 
+                        max="2000" 
+                        step="10" 
+                        bind:value={precioMaximo} 
+                        class="w-full accent-primary bg-black/30 h-1.5 rounded-lg appearance-none cursor-pointer" 
                     />
                 </div>
-
                 <!-- Filtro de Categorías -->
                 <div class="space-y-2">
                     <p class="text-xs font-bold uppercase text-on-surface-variant">Categorías</p>
                     <div class="flex flex-col gap-1.5 text-sm">
                         {#each categories as category}
                             <button 
-                                onclick={() => activeFilter = category}
-                                class="text-left px-3 py-2 rounded-lg transition-all font-semibold capitalize {activeFilter === category ? 'bg-primary/20 text-primary border-l-4 border-primary font-bold' : 'hover:bg-white/5 text-on-surface-variant'}"
+                                onclick={() => activeFilter = category} //
+                                class="text-left px-3 py-2 rounded-lg transition-all font-semibold capitalize {activeFilter === category ? 'bg-primary/20 text-primary border-l-4 border-primary font-bold' : 'hover:bg-white/5 text-on-surface-variant'}" //
                             >
                                 {category === 'Todos los Productos' ? 'Todo el Catálogo' : category.replace(/-/g, ' ')}
                             </button>
@@ -117,11 +137,11 @@
                     </div>
                     <input 
                         type="range" 
-                        min="20" 
-                        max="2000" 
-                        step="10"
-                        bind:value={precioMaximo}
-                        class="w-full accent-primary bg-black/30 h-1.5 rounded-lg appearance-none cursor-pointer"
+                        min="20" //
+                        max="2000" //
+                        step="10" //
+                        bind:value={precioMaximo} //
+                        class="w-full accent-primary bg-black/30 h-1.5 rounded-lg appearance-none cursor-pointer" //
                     />
                 </div>
             </div>
@@ -138,13 +158,16 @@
             {#if filteredProducts().length > 0}
                 <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-gutter">
                     {#each filteredProducts() as product (product.id)}
-                        <Tarjeta {product} />
+                        <!-- LE PASAMOS LA PROPIEDAD DE LA TASA EN TIEMPO REAL A CADA TARJETA -->
+                        <Tarjeta {product} {tasaBCV} />
                     {/each}
                 </div>
             {:else}
                 <!-- Estado Vacío -->
                 <div class="glass-card rounded-xl p-12 text-center flex flex-col items-center justify-center gap-4">
-                    <span class="material-symbols-outlined text-outline text-5xl">database_off</span>
+                    <div class="flex items-center justify-center">
+                        <span class="material-symbols-outlined text-outline text-5xl">database_off</span>
+                    </div>
                     <div>
                         <p class="font-bold text-lg text-on-surface">No hay hardware que coincida</p>
                         <p class="text-on-surface-variant text-sm mt-1">Prueba subiendo el presupuesto o afinando el texto del buscador.</p>
@@ -166,33 +189,43 @@
     <button aria-label="Cerrar menú" class="absolute inset-0 bg-background/90 backdrop-blur-xl w-full h-full cursor-default" onclick={() => mobileNavOpen = false}></button>
     <div class="absolute right-0 top-0 h-screen w-64 bg-surface-container-low/95 backdrop-blur-2xl border-l border-primary/10 flex flex-col py-stack-lg shadow-2xl">
         <div class="px-8 mb-stack-lg">
-            <div class="text-primary font-headline-lg-mobile text-headline-lg-mobile font-bold">NEON CORE</div>
-            <div class="text-on-surface-variant font-label-md">Elite Digital Hub</div>
+            <p class="text-primary font-headline-lg-mobile text-headline-lg-mobile font-bold">NEON CORE</p>
+            <p class="text-on-surface-variant font-label-md">Elite Digital Hub</p>
         </div>
         <nav class="flex flex-col flex-1">
             <a class="flex items-center gap-stack-sm text-on-surface-variant p-6 hover:bg-primary-container/10 hover:text-primary transition-all" href="/">
-                <span class="material-symbols-outlined">home</span>
-                <span class="font-body-md text-body-md">Inicio</span>
+                <div class="flex items-center justify-center">
+                    <span class="material-symbols-outlined">home</span>
+                </div>
+                <p class="font-body-md text-body-md">Inicio</p>
             </a>
             <a class="flex items-center gap-stack-sm bg-primary-container/20 text-primary border-l-4 border-primary p-6 transition-all" href="/store">
-                <span class="material-symbols-outlined">grid_view</span>
-                <span class="font-body-md text-body-md">Tienda</span>
+                <div class="flex items-center justify-center">
+                    <span class="material-symbols-outlined">grid_view</span>
+                </div>
+                <p class="font-body-md text-body-md">Tienda</p>
             </a>
             <a class="flex items-center gap-stack-sm text-on-surface-variant p-6 hover:bg-primary-container/10 hover:text-primary transition-all" href="/about-us">
-                <span class="material-symbols-outlined">info</span>
-                <span class="font-body-md text-body-md">Sobre Nosotros</span>
+                <div class="flex items-center justify-center">
+                    <span class="material-symbols-outlined">info</span>
+                </div>
+                <p class="font-body-md text-body-md">Sobre Nosotros</p>
             </a>
             <a class="flex items-center gap-stack-sm text-on-surface-variant p-6 hover:bg-primary-container/10 hover:text-primary transition-all" href="/contact">
-                <span class="material-symbols-outlined">mail</span>
-                <span class="font-body-md text-body-md">Contacto</span>
+                <div class="flex items-center justify-center">
+                    <span class="material-symbols-outlined">mail</span>
+                </div>
+                <p class="font-body-md text-body-md">Contacto</p>
             </a>
         </nav>
         <div class="px-6">
-            <button class="w-full bg-primary text-on-primary py-3 rounded-lg font-bold">Comprar Ahora</button>
+            <button class="w-full bg-primary text-on-primary py-3 rounded-lg font-bold cursor-pointer">Comprar Ahora</button>
         </div>
     </div>
 </div>
 
-<button aria-label="Abrir menú" class="fixed bottom-6 right-6 z-110 md:hidden w-14 h-14 bg-primary text-on-primary rounded-full shadow-2xl flex items-center justify-center active:scale-90 transition-all" onclick={() => mobileNavOpen = !mobileNavOpen}>
-    <span class="material-symbols-outlined">menu</span>
+<button aria-label="Abrir menú" class="fixed bottom-6 right-6 z-110 md:hidden w-14 h-14 bg-primary text-on-primary rounded-full shadow-2xl flex items-center justify-center active:scale-90 transition-all cursor-pointer" onclick={() => mobileNavOpen = !mobileNavOpen}>
+    <div class="flex items-center justify-center">
+        <span class="material-symbols-outlined">menu</span>
+    </div>
 </button>
