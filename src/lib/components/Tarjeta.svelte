@@ -52,7 +52,7 @@
             {#if product.tag}
                 <div class="absolute top-4 right-4 z-20">
                     <span
-                        class="text-on-primary-container text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest {product.tag ===
+                        class="text-on-primary-container text-[11px] font-bold px-2 py-1 rounded uppercase tracking-widest {product.tag ===
                         'New'
                             ? 'bg-primary-container'
                             : 'bg-error-container text-error'}"
@@ -91,6 +91,7 @@
                 </div>
             </div>
             
+
             <!-- Descripción del Producto -->
             <p
                 class="text-on-surface-variant font-label-md mb-4 line-clamp-2 text-sm leading-relaxed"
