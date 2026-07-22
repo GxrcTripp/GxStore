@@ -331,7 +331,7 @@
                             </div>
 
                             <button
-                                class="w-full py-2.5 bg-primary hover:bg-primary/90 text-background font-bold text-xs rounded-xl transition-colors shadow-lg shadow-primary/10 uppercase tracking-wider cursor-pointer font-bold"
+                                class="w-full py-2.5 bg-primary hover:bg-primary/90 text-background text-xs rounded-xl transition-colors shadow-lg shadow-primary/10 uppercase tracking-wider cursor-pointer font-bold"
                                 onclick={() => {
                                     alert(`¡Gracias por simular tu compra!\nTotal procesado: $${cart.totalPrecio.toFixed(2)}`);
                                     cart.limpiar();

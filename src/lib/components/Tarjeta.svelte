@@ -1,6 +1,7 @@
 <script lang="ts">
     // 1. Importamos el store del carrito
     import { cart } from "$lib/cart.svelte";
+    import { dbProductos } from "$lib/db/productos";
 
     // Definimos los props usando las runas de Svelte 5
     interface Props {
@@ -37,7 +38,9 @@
 <div
     class="glass-card rounded-xl overflow-hidden group cursor-pointer transition-all duration-500 flex flex-col justify-between h-full"
 >
+
     <div>
+    <a href={`/store/${product.id}`} aria-label={`Ver detalles de ${product.title}`}>
         <!-- Contenedor de la Imagen -->
         <div class="relative aspect-square overflow-hidden bg-black/10">
             <div
@@ -62,7 +65,6 @@
                 </div>
             {/if}
         </div>
-
         <!-- Información del Producto -->
         <div class="p-stack-md relative z-20">
             <div class="flex flex-col mb-3 gap-1">
@@ -99,7 +101,8 @@
                 {product.desc}
             </p>
         </div>
-    </div>
+    </a>
+</div>
 
     <!-- Botones de Acción -->
     <div class="px-stack-md pb-stack-md relative z-20 mt-auto">
